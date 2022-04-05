@@ -1,0 +1,12 @@
+textarea:focus, input:focus {
+  outline: none;
+}
+input[type='radio']:focus {
+  outline-color: gray !important;
+}
+label [type="radio"] {
+  display:none;
+}
+/* input:checked + label {
+	background: #000;
+} */
