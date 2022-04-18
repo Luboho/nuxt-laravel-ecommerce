@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- Radio Buttons Rounded -->
+    <!-- Radio Buttons Circle -->
         <div v-if="shape == 'circle'">
           <div class="mt-2 mx-2 flex flex-wrap justify-start lg:grid lg:grid-cols-3">
             <div v-for="(color,index) in product.colors" :key="index" class="">
@@ -26,7 +26,33 @@
           </div>
             <!-- <p class="text-red-600 text-sm" v-text="errors.email ? errors.email[0] : ''"></p> -->
         </div>
-    <!-- End Radio Buttons Rounded -->
+    <!-- End Radio Buttons Circle -->
+
+    <!-- Radio Buttons mini-Circle -->
+        <div v-if="shape == 'mini-circle'">
+          <div class="mt-4 flex flex-wrap justify-center space-x-2">
+            <div v-for="(color,index) in product.colors" :key="index" class="">
+              <label class="inline-flex items-center mr-2 mb-3"
+                     :class="color.inStock === false ? 'cursor-text opacity-20' : ''">
+                <input v-model="selectedColor"
+                        type="radio"
+                        class="form-radio h-4 w-4 cursor-pointer "
+                        :class="[color.class, color.name === selectedColor]"
+                        name="colors"
+                        :disabled="isDisabled(color.inStock)"
+                        :value="color.name"
+                        @change="onColorChanged">
+                <span class="w-4 h-4 rounded-full cursor-pointer ring-1 ring-gray-500 ring-offset-2 ring-offset-gray-100"
+                     :class="[
+                              color.class, color.name === selectedColor ? 'ring-2 ring-gray-500 ring-offset-4 ring-offset-gray-100' : '', 'focus:outline-none',
+                              color.inStock === false ? 'cursor-text': ''
+                             ]" >&nbsp;</span>
+              </label>
+            </div>
+          </div>
+            <!-- <p class="text-red-600 text-sm" v-text="errors.email ? errors.email[0] : ''"></p> -->
+        </div>
+    <!-- End Radio Buttons Mini Circle -->
 
     <!-- Radio Buttons Rectangles-->
     <div v-if="shape == 'rectangle'">

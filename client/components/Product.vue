@@ -20,24 +20,11 @@
           </li>
         </ol>
       </nav>
+      <div class="flex">
 
-      <!-- Image gallery -->
-      <div class="mt-6 max-w-2xl mx-auto sm:px-6 md:max-w-7xl md:px-8 md:grid md:grid-cols-3 md:gap-x-8">
-        <div class="hidden aspect-w-3 aspect-h-4 rounded-md overflow-hidden md:block">
-          <img :src="product.images[0].src" :alt="product.images[0].alt" class="w-full h-full object-center object-cover" />
-        </div>
-        <div class="hidden md:grid md:grid-cols-1 md:gap-y-8">
-          <div class="aspect-w-3 aspect-h-2 rounded-md overflow-hidden">
-            <img :src="product.images[1].src" :alt="product.images[1].alt" class="w-full h-full object-center object-cover" />
-          </div>
-          <div class="aspect-w-3 aspect-h-2 rounded-md overflow-hidden">
-            <img :src="product.images[2].src" :alt="product.images[2].alt" class="w-full h-full object-center object-cover" />
-          </div>
-        </div>
-        <div class="aspect-w-4 aspect-h-5 sm:rounded-md sm:overflow-hidden md:aspect-w-3 md:aspect-h-4">
-          <img :src="product.images[3].src" :alt="product.images[3].alt" class="w-full h-full object-center object-cover" />
-        </div>
       </div>
+
+      <ProductGallery :product="product" :selectedColor="selectedColor" />
 
       <!-- Product info -->
       <div class="max-w-2xl mx-auto pt-10 pb-16 px-4 sm:px-6 lg:max-w-7xl lg:pt-16 lg:pb-24 lg:px-8 lg:grid lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8">
@@ -60,7 +47,7 @@
                 <!-- <StarIcon v-for="rating in [0, 1, 2, 3, 4]" :key="rating" :class="[reviews.average > rating ? 'text-gray-900' : 'text-gray-200', 'h-5 w-5 flex-shrink-0']" aria-hidden="true" /> -->
               </div>
               <p class="sr-only">{{ reviews.average }} out of 5 stars</p>
-              <a :href="reviews.href" class="ml-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">{{ reviews.totalCount }} reviews</a>
+              <a :href="reviews.href" class="ml-1 text-sm font-medium text-indigo-600 hover:text-indigo-500">{{ reviews.totalCount }} reviews</a>
             </div>
           </div>
 
@@ -78,26 +65,7 @@
                 <h3 class="text-sm text-gray-900 font-medium">Size</h3>
                 <a href="#" class="text-sm font-medium text-indigo-600 hover:text-indigo-500">Size guide</a>
               </div>
-
               <InputRadio :product="product" shape="rectangle" @sizeChanged="choosenSize" />
-              <!-- <RadioGroup v-model="selectedSize" class="mt-4">
-                <RadioGroupLabel class="sr-only"> Choose a size </RadioGroupLabel>
-                <div class="grid grid-cols-4 gap-4 sm:grid-cols-8 lg:grid-cols-4">
-                  <RadioGroupOption as="template" v-for="size in product.sizes" :key="size.name" :value="size" :disabled="!size.inStock" v-slot="{ active, checked }">
-                    <div :class="[size.inStock ? 'bg-white shadow-sm text-gray-900 cursor-pointer' : 'bg-gray-50 text-gray-200 cursor-not-allowed', active ? 'ring-2 ring-indigo-500' : '', 'group relative border rounded-md py-3 px-4 flex items-center justify-center text-sm font-medium uppercase hover:bg-gray-50 focus:outline-none sm:flex-1 sm:py-6']">
-                      <RadioGroupLabel as="p">
-                        {{ size.name }}
-                      </RadioGroupLabel>
-                      <div v-if="size.inStock" :class="[active ? 'border' : 'border-2', checked ? 'border-indigo-500' : 'border-transparent', 'absolute -inset-px rounded-md pointer-events-none']" aria-hidden="true" />
-                      <div v-else aria-hidden="true" class="absolute -inset-px rounded-md border-2 border-gray-200 pointer-events-none">
-                        <svg class="absolute inset-0 w-full h-full text-gray-200 stroke-2" viewBox="0 0 100 100" preserveAspectRatio="none" stroke="currentColor">
-                          <line x1="0" y1="100" x2="100" y2="0" vector-effect="non-scaling-stroke" />
-                        </svg>
-                      </div>
-                    </div>
-                  </RadioGroupOption>
-                </div>
-              </RadioGroup> -->
             </div>
 
             <button type="submit" class="mt-10 button--success clickAble">Add to bag</button>
@@ -114,7 +82,7 @@
             </div>
           </div>
 
-          <div class="mt-10">
+          <div v-show="product.highlights.length > 0" class="mt-10">
             <h3 class="text-sm font-medium text-gray-900">Highlights</h3>
 
             <div class="mt-4">
@@ -140,24 +108,17 @@
 </template>
 
 <script>
-// import { ref } from 'vue'
-// import { StarIcon } from '@heroicons/vue/solid'
-// import { RadioGroup, RadioGroupLabel, RadioGroupOption } from '@headlessui/vue'
-
-
 // const reviews = { href: '#', average: 4, totalCount: 117 }
 import {mapState} from 'vuex'
 import InputRadio from './InputRadio.vue'
+import ProductGallery from './ProductGallery.vue';
 
 export default {
   name: "Product",
 
   components: {
-    InputRadio
-    // RadioGroup,
-    // RadioGroupLabel,
-    // RadioGroupOption,
-    // StarIcon,
+    InputRadio,
+    ProductGallery
   },
   data: () => ({
     selectedColor: '',
@@ -165,7 +126,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      product: state => state.data.product,
+      product: state => state.data.viewedProduct,
       reviews: state => state.data.reviews
     })
   },
@@ -177,9 +138,5 @@ export default {
       this.selectedSize = e;
     }
   }
-
-  // setup() {
-  //   const selectedColor = ref(product.colors[0])
-  //   const selectedSize = ref(product.sizes[2])
 }
 </script>

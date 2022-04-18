@@ -5,6 +5,15 @@ module.exports = {
     },
     purge: [],
     theme: {
+      screens: {
+        'xs': '420px',
+        // => @media (min-width: 420px) { ... }
+        'sm': '640px',
+        'md': '768px',
+        'lg': '1024px',
+        'xl': '1280px',
+        '2xl': '1536px',
+      },
       fontSize: {
         xs: ['10px', '16px'],
         sm: ['14px', '20px'],
@@ -70,6 +79,7 @@ module.exports = {
           '12': '3rem',
           '14': '3.5rem',
           '16': '4rem',
+          '17': '4.5rem', // approx.
           '20': '5rem',
           '24': '6rem',
           '26': '6.5rem',
@@ -92,6 +102,8 @@ module.exports = {
           '101.5': '25.35rem',
           '102': '25.50rem',
           '102.5': '25.65rem',
+          '140': '35rem', // approx.
+          '150': '38rem', // aprox.
           '205': '51.3rem'
         },
         colors: {
@@ -106,6 +118,9 @@ module.exports = {
             '700': '#4d7c0f',
             '800': '#3f6212',
             '900': '#365314'
+          },
+          slate: {
+            '50': '#FCFCFC',
           }
         },
       },
@@ -121,6 +136,5 @@ module.exports = {
     },
     plugins: [
       require('@tailwindcss/forms'),
-
     ],
   }

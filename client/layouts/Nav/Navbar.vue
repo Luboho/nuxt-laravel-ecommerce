@@ -152,7 +152,7 @@
         </aside>
         <!-- END OF ASIDE PANNEL OF NAVBAR -->
 
-        <div class="flex md:order-2 items-center">
+        <div class="flex md:order-2 mt-10 items-center">
             <!-- SEARCH -->
             <div class="relative mr-3 md:mr-0 md:block">
               <div class="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
