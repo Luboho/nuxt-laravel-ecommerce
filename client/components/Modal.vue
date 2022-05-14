@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {mapState, mapActions, mapMutations} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
     export default {
         name: "Modal",
         computed: {
@@ -15,11 +15,9 @@ import {mapState, mapActions, mapMutations} from 'vuex'
                 modal: state => state.modal.modal,
             })
         },
-
         methods: {
             ...mapMutations({ setModal : 'modal/setModal' }),
-            ...mapActions({
-            }),
+
         },
     }
 </script>

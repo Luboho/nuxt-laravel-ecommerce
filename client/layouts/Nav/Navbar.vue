@@ -7,15 +7,16 @@
             <span class="self-center text-2xl font-semibold whitespace-nowrap">Nuxt Ecommerce</span>
         </a>
         <div class="flex flex-row md:order-3 inset-y-0 right-0 md:flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-          <!-- SHOPPING BASKET-->
-          <button type="button" class="flex flex-col bg-opacity-80 text-white hover:text-gray-600 align-middle p-2 rounded-full clickAble">
+          <!-- SHOPPING CART-->
+          <button type="button" class="flex flex-col bg-opacity-80 text-white hover:text-gray-600 align-middle p-2 rounded-full clickAble"
+                   @click="cartOpen">
             <div class="text-xs font-bold text-red-600 place-self-end -mb-2">
               2
             </div>
             <span class="sr-only">View notifications</span>
             <img src="@/assets/default-imgs/shopping-cart.png" class="w-7 h-7 clickAble" />
           </button>
-          <!-- END SHOPPING BASKET-->
+          <!-- END SHOPPING CART-->
 
           <!-- USER PROFILE MENU -->
           <div class="m-3 mr-4 relative">
@@ -160,7 +161,7 @@
               </div>
 
               <input id="email-adress-icon" type="text"
-                     class="block p-2 pl-10 w-full text-gray-800 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:bg-gray-200 focus:border-gray-400"
+                     class="block p-2 pl-10 w-full text-gray-800 focus:ring-0 bg-gray-50 rounded-lg border border-gray-300 sm:text-xs focus:bg-gray-200 focus:border-gray-400"
                      placeholder="Search...">
 
             </div>
@@ -191,8 +192,8 @@
 
       <!--DESKTOP CATEGORIES -->
         <div class="z-40 mt-20 py-2 -mx-10 hidden justify-evenly md:flex bg-lime-200">
-          <ul v-for="(category, index) in categories" :key="index" class="z-40 flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-xs md:font-medium">
-            <li class="flex flex-col z-40 px-5 cursor-pointer hover:border rounded-t-full p-3 hover:bg-white" @mouseover="openSubCategoryId(category.id)"  @mouseleave="closeSubCategoryId">
+          <transition-group tag="ul" name="list" role="list" class="z-40 flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-xs md:font-medium">
+            <li v-for="category in categories" :key="category.id" class="flex flex-col z-40 px-5 cursor-pointer hover:border rounded-t-full p-3 hover:bg-white" @mouseover="openSubCategoryId(category.id)"  @mouseleave="closeSubCategoryId">
               <a href="#" class="clickAble z-40 py-2 px-3 text-gray-700 p-1 rounded-full hover:text-gray-800 uppercase">
                 {{ category.name }}
               </a>
@@ -212,10 +213,10 @@
               </div>
               <!-- End of Expandable -->
             </li>
-          </ul>
+          </transition-group>
         </div>
-
       <!-- END OF DESKTOP CATEGORIES -->
+
     </nav>
 
     <!-- SUBMENU BG  -->
@@ -228,18 +229,23 @@
     <div @click="modal">
       <Modal />
     </div>
+    <div>
+        <ShoppingCart :cartPreview="cartPreview" @cartOpen="cartOpen" />
+    </div>
 
   </div>
 </template>
 
 <script>
-import {mapState,mapMutations} from 'vuex'
+import {mapState,mapActions} from 'vuex'
 import Modal from '../../components/Modal.vue'
+import ShoppingCart from '../../components/ShoppingCart.vue'
 
 export default {
 
   components: {
-    Modal
+    Modal,
+    ShoppingCart
   },
 
   data() {
@@ -248,8 +254,33 @@ export default {
       subMenu: false,
       openCategoryId: null,
       userProfileMenu: false,
-      active: true
+      active: true,
+      cartPreview: false,
+      products: [
+      {
+        id: 1,
+        name: 'Throwback Hip Bag',
+        href: '#',
+        color: 'Salmon',
+        price: '$90.00',
+        quantity: 1,
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg',
+        imageAlt: 'Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.',
+      },
+      {
+        id: 2,
+        name: 'Medium Stuff Satchel',
+        href: '#',
+        color: 'Blue',
+        price: '$32.00',
+        quantity: 1,
+        imageSrc: 'https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg',
+        imageAlt:
+          'Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.',
+      }
+    ]
     }
+
   },
   computed: {
     ...mapState({
@@ -259,29 +290,37 @@ export default {
 
   },
   methods: {
-    ...mapMutations({ setModal : 'modal/setModal' }),
+    ...mapActions({ changeModal : 'modal/changeModal' }),
 
     subCat(id){
       return Object.values(this.subCategories).filter(subCat => subCat.parentId === id)
     },
 
     modal() {
-      this.setModal(false);
+      this.changeModal(false);
       this.asideMenu = false;
       this.userProfileMenu = false;
+      this.cartPreview = false;
     },
 
     asideOpen() {
       this.asideMenu = !this.asideMenu;
       if(this.asideMenu === true) {
-        this.setModal(true);
+        this.changeModal(true);
       } else {
-        this.setModal(false);
+        this.changeModal(false);
       }
     },
 
+    cartOpen() {
+      this.cartPreview = !this.cartPreview;
+      this.cartPreview === true ? this.changeModal(true) : this.changeModal(false)
+    },
+
     openSubCategoryId(id){
-      if(this.subMenu === false) {
+      const qtyOfSubcategories = this.subCategories.filter(sub => sub.parentId === id);
+      if(this.subMenu === false && qtyOfSubcategories.length > 0) {
+
         this.openCategoryId = id;
         this.subMenu = true;
       }
@@ -295,9 +334,9 @@ export default {
     profileMenuOpen() {
       this.userProfileMenu = !this.userProfileMenu;
       if(this.userProfileMenu === true) {
-        this.setModal(true);
+        this.changeModal(true);
       } else {
-        this.setModal(false);
+        this.changeModal(false);
       }
     }
   },
@@ -312,11 +351,11 @@ export default {
   background-position: center;
 }
 .drop-down-enter-active {
-  animation: drop-down 0.3s;
+  animation: drop-down 0.5s;
 }
 
 .drop-down-leave-active {
-  animation: drop-down 0.3s reverse;
+  animation: drop-down 0.5s reverse;
 }
 
 @keyframes drop-down {
@@ -327,5 +366,19 @@ export default {
   to {
     transform: scaley(1) translate3d(0, 0, 0);
   }
+}
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0.1);
+}
+.list-enter-to,
+.list-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s ease;
 }
 </style>

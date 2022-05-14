@@ -5,7 +5,7 @@
 
       <div class="mt-8 grid grid-cols-1 gap-y-10 gap-x-6 xs:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
         <div v-for="product in products" :key="product.id" class="group grid grid-cols-1 content-end relative mb-5 bg-slate-50 bg-opacity-50 rounded-md">
-          <div class="w-full min-h-80 aspect-w-1 aspect-h-1 rounded-md overflow-hidden group-hover:opacity-75 lg:aspect-none"
+          <div class="w-full min-h-80 aspect-w-1 aspect-h-1 rounded-md overflow-hidden lg:aspect-none"
                @click="changedColorImgId = product.id">
               <div>
                 <img :src="[selectedColor !== '' && product.id === changedColorImgId ?  imageBySelectedColor(product): product.images[0].src ]"

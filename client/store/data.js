@@ -184,6 +184,7 @@ export const state = () => ({
         id: 1,
         name: 'Basic Tee 6-Pack',
         price: '$192',
+        quantity: 10,
         href: '#',
         breadcrumbs: [
           { id: 1, name: 'Men', href: '#' },
@@ -256,6 +257,7 @@ export const state = () => ({
         id: 2,
         name: 'Basic Tee 6-Pack',
         price: '$192',
+        quantity: 6,
         href: '#',
         breadcrumbs: [
           { id: 1, name: 'Men', href: '#' },
@@ -328,6 +330,7 @@ export const state = () => ({
         id: 3,
         name: 'Basic Tee 6-Pack',
         price: '$192',
+        quantity: 16,
         href: '#',
         breadcrumbs: [
           { id: 1, name: 'Men', href: '#' },
@@ -400,6 +403,7 @@ export const state = () => ({
         id: 4,
         name: 'Basic Tee 6-Pack',
         price: '$192',
+        quantity: 22,
         href: '#',
         breadcrumbs: [
           { id: 1, name: 'Men', href: '#' },
@@ -472,6 +476,7 @@ export const state = () => ({
         id: 5,
         name: 'Basic Tee 6-Pack',
         price: '$192',
+        quantity: 9,
         href: '#',
         breadcrumbs: [
           { id: 1, name: 'Men', href: '#' },
@@ -544,6 +549,7 @@ export const state = () => ({
         id: 6,
         name: 'Basic Tee 6-Pack',
         price: '$192',
+        quantity: 10,
         href: '#',
         breadcrumbs: [
           { id: 1, name: 'Men', href: '#' },
@@ -616,6 +622,7 @@ export const state = () => ({
         id: 7,
         name: 'Basic Tee 6-Pack',
         price: '$192',
+        quantity: 4,
         href: '#',
         breadcrumbs: [
           { id: 1, name: 'Men', href: '#' },
@@ -686,6 +693,14 @@ export const state = () => ({
       },
     ],
 
+})
+
+export const getters = () => ({
+  namespaced: true,
+
+  getProducts(state) {
+    return state.products;
+  }
 })
 
 
