@@ -1,29 +1,35 @@
 <template>
   <div>
     <!-- Image gallery -->
+
       <div class="px-6 md:px-8 mt-6 max-w-2xl mx-auto md:max-w-7xl">
-        <div v-if="imgIndex !== null">
-        <!-- Img Preview -->
-          <div class="relative w-full flex justify-center">
-            <div class="relative">
-              <transition name="slide-fade" mode="out-in">
-                <img :key="imgIndex" :src="product.images[imgIndex].src" :alt="product.images[imgIndex].alt"
-                      class="cursor-zoom-in w-140 h-140 object-cover rounded-md"
-                       @click="imgCoolIndex = imgIndex; zoom = true"
+        <transition name="appear">
+          <div v-if="imgIndex !== null" class="">
+          <!-- Img Preview -->
+            <div class="relative w-full flex justify-center">
+              <div class="relative">
+                <transition name="slide-fade" mode="out-in">
+                  <img :key="imgIndex" :src="product.images[imgIndex].src" :alt="product.images[imgIndex].alt"
+                        class="cursor-zoom-in w-140 h-140 object-cover rounded-md"
+                        @click="imgCoolIndex = imgIndex; zoom = true"
+                        >
+                </transition>
+                <div class="absolute clickAble flex justify-center items-center top-2 right-2 bg-lime-500 w-7 h-7 rounded-full"
+                      @click="imgIndex = null"
                       >
-              </transition>
-              <div class="absolute clickAble flex justify-center items-center top-2 right-2 bg-lime-500 w-7 h-7 rounded-full"
-                    >
-                <button class="self-center font-bold text-white" @click="imgIndex = null">
-                  X
-                </button>
+                  <button class="self-center font-bold text-white">
+                    X
+                  </button>
+                </div>
               </div>
             </div>
+          <!-- End Of Img Preview  -->
           </div>
-        <!-- End Of Img Preview  -->
-        </div>
+        </transition>
+
         <!-- Normal Preview -->
-        <div v-else class="md:grid md:grid-cols-3 md:gap-x-8">
+
+        <div v-if="imgIndex === null" class="md:grid md:grid-cols-3 md:gap-x-8">
           <div class="aspect-w-4 aspect-h-5 sm:rounded-md sm:overflow-hidden md:aspect-w-3 md:aspect-h-4">
             <img :src="[imageBySelectedColor != '' ? imageBySelectedColor : product.images[0].src ]" :alt="product.images[0].alt"
                  class="w-full rounded-md h-full object-center object-cover cursor-pointer"
@@ -39,12 +45,13 @@
                    @click="imgIndex = 2" />
             </div>
           </div>
-              <div class="hidden aspect-w-3 aspect-h-4 rounded-md overflow-hidden md:block">
+          <div class="hidden aspect-w-3 aspect-h-4 rounded-md overflow-hidden md:block">
             <img :src="product.images[3].src" :alt="product.images[3].alt" class="w-full rounded-md h-full object-center object-cover cursor-pointer"
                  @click="imgIndex = 3" />
           </div>
         </div>
         <!-- End Of NOrmal Preview -->
+
         <!-- Vue-Cool-Box -->
           <div v-show="zoom">
               <CoolLightBox :items="pictures"
@@ -155,5 +162,36 @@ export default {
 .slide-fade-enter {
   transform: translateX(300px);
   opacity: 0;
+}
+
+.appear-enter-active {
+  animation: appear-in .3s;
+  z-index: 1000;
+}
+.appear-leave-active {
+  animation: disappear reverse  .3s;
+  left:0;
+  right: 0;
+  position: absolute;
+  z-index: 1000;
+}
+@keyframes appear-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes disappear {
+  0% {
+    transform: scale(0) rotate(-360deg) ;
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

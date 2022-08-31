@@ -63,7 +63,7 @@
                           size.name === selectedSize ? 'ring-2 ring-gray-500 ring-offset-1 ring-offset-gray-100' : '', 'focus:outline-none',
                           size.inStock === false ? 'opacity-20 cursor-text' : ''
                         ]">
-            <input id="size"
+            <input :id="size.index"
                     v-model="selectedSize"
                     class="hidden"
                     type="radio"

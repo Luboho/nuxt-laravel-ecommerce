@@ -120,7 +120,6 @@ export default {
     },
     sumToPrice, // Helpers.js
     increase(id,qty) {
-        // const stockQty = this.inStock.filter(product => product.id === id);
 
         const increaseQty = qty + 1;
         const payload = {'id': id, 'qty': increaseQty}

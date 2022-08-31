@@ -5,11 +5,11 @@ export const state = () => ({
 export const mutations = {
   setModal(state, value) {
       state.modal = value
-  }
+  },
 }
 
 export const actions = {
   async changeModal({commit}, boolean) {
      await commit('setModal', boolean)
-  }
+  },
 }

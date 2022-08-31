@@ -54,6 +54,14 @@ module.exports = {
         '7xl': '5rem',
       },
       extend: {
+        zIndex: {
+          '10': '10',
+          '20': '20',
+          '30': '30',
+          '40': '40',
+          '50': '50',
+          '60': '60'
+        },
         backgroundColor: ['label-checked'], // you need add new variant to a property you want to extend
         animation: {
           'spin-slow': 'spin 3s linear infinite'
